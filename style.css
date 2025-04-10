@@ -1,0 +1,230 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --starry-night: #1a1a2e;
+    --mystic-purple: #8a4fff;
+    --crystal-blue: #00b4d8;
+    --aura-gold: #ffd700;
+    --ethereal-pink: #ff69b4;
+    --mystic-gradient: linear-gradient(135deg, rgba(138, 79, 255, 0.8), rgba(0, 180, 216, 0.6));
+    --crystal-gradient: linear-gradient(45deg, rgba(0, 180, 216, 0.8), rgba(255, 105, 180, 0.6));
+}
+
+@keyframes starRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes prophecy {
+    0% { transform: rotate(0) scale(0.8); opacity: 0; }
+    50% { filter: drop-shadow(0 0 20px var(--aura-gold)); }
+    100% { transform: rotate(360deg) scale(1); opacity: 1; }
+}
+
+@keyframes glowPulse {
+    0% { box-shadow: 0 0 10px var(--mystic-purple); }
+    50% { box-shadow: 0 0 25px var(--crystal-blue), 0 0 40px var(--ethereal-pink); }
+    100% { box-shadow: 0 0 10px var(--mystic-purple); }
+}
+
+@keyframes floatSymbols {
+    0% { transform: translateY(0) rotate(0); opacity: 0.6; }
+    50% { transform: translateY(-10px) rotate(180deg); opacity: 1; }
+    100% { transform: translateY(0) rotate(360deg); opacity: 0.6; }
+}
+
+body {
+    font-family: 'Space Mono', 'Microsoft YaHei', monospace;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--starry-night) url('image_fx.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-blend-mode: overlay;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    width: 200vw;
+    height: 200vh;
+    top: -50vh;
+    left: -50vw;
+    background: radial-gradient(circle at center, transparent 0%, var(--starry-night) 100%),
+                repeating-conic-gradient(from 0deg, var(--aura-glow) 0deg 10deg, transparent 10deg 20deg);
+    animation: starRotate 60s linear infinite;
+    opacity: 0.3;
+}
+
+.container {
+    perspective: 1000px;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.fortune-card {
+    width: 300px;
+    height: 400px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.fortune-card:hover {
+    transform: translateY(-10px);
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    transform-style: preserve-3d;
+}
+
+.fortune-card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    background: var(--mystic-gradient);
+    animation: glowPulse 3s infinite;
+}
+
+.card-front {
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-front::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><path d="M50 5 L50 95 M5 50 L95 50" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><text x="50" y="50" font-family="Arial" font-size="10" fill="rgba(255,255,255,0.3)" text-anchor="middle" dominant-baseline="middle">✧</text></svg>');
+    background-size: 50px 50px;
+    opacity: 0.5;
+    animation: floatSymbols 6s infinite;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: var(--crystal-gradient);
+}
+
+.card-design {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.card-design::before,
+.card-design::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><path d="M50 5 L50 95 M5 50 L95 50" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><text x="30" y="30" font-family="Arial" font-size="8" fill="rgba(255,255,255,0.2)" text-anchor="middle">✧</text><text x="70" y="70" font-family="Arial" font-size="8" fill="rgba(255,255,255,0.2)" text-anchor="middle">✦</text></svg>');
+    background-size: 40px 40px;
+    opacity: 0.6;
+}
+
+.card-design::before {
+    animation: floatSymbols 8s infinite;
+}
+
+.card-design::after {
+    animation: floatSymbols 8s infinite reverse;
+}
+
+.card-text {
+    color: white;
+    font-size: 24px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+                 0 0 15px var(--aura-gold);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 15px 25px;
+    border-radius: 10px;
+    letter-spacing: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.fortune-text {
+    color: white;
+    font-size: 20px;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3),
+                0 0 10px var(--aura-gold);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-out 0.8s;
+    animation: prophecy 1.2s ease-out forwards;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(3px);
+}
+
+.fortune-card.flipped .fortune-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.fortune-image {
+    width: 100px;
+    height: auto;
+    margin: 0 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 400px) {
+    .fortune-card {
+        width: 260px;
+        height: 360px;
+    }
+
+    .card-text {
+        font-size: 20px;
+    }
+
+    .fortune-text {
+        font-size: 18px;
+    }
+}
